@@ -20,6 +20,6 @@
 
 Windows/WSL は Windows GUI ホストから WSL 内の TUI を起動する方式（B）を将来方針として選択。今回は再配置だけに限定し、Windows の仮実装・汎用バックエンド trait・workspace 化は行わない。Linux は `src/platform/linux/`、ホストパッチは `native/linux/patches/`、アイコン処理は `src/icons/` に配置。`registry.rs` / `cli.rs` 内の OS 依存分離は Windows 実装時まで保留する。
 
-README.md は日本語のまま維持し、README.en.md を英語版として相互リンクする。ヘルプ本文は LC_ALL → LC_MESSAGES → LANG の空でない値を優先し、日本語ロケールだけ日本語、それ以外・未設定は英語にする。診断や登録結果等の全面翻訳は未対応（src/cli.rs の usage_for_locale）。公開する日本語文書（README・CONTRIBUTING・docs 本文）は敬体（です・ます調）に統一する。依存は必要なツール・ライブラリ名で示し、Debian 等への環境固定やディストリビューション別のパッケージ導入例は追加しない。CI の実際の実行環境とは区別する。第三者通知（THIRD_PARTY_NOTICES.md）は簡潔な英語で記述する。見出し・項目名などの名詞句、コマンド例、第三者ライセンス原文はそのまま保持する。
+README.md は日本語のまま維持し、README.en.md を英語版として相互リンクする。ヘルプ本文は LC_ALL → LC_MESSAGES → LANG の空でない値を優先し、日本語ロケールだけ日本語、それ以外・未設定は英語にする。診断や登録結果等の全面翻訳は未対応（src/cli.rs の usage_for_locale）。公開する日本語文書（README・CONTRIBUTING・docs 本文）は敬体（です・ます調）に統一する。導入依存は特定ディストリ専用配布に偏らせずソースビルドの最小依存を軸とし、README では Arch 系・Debian/Ubuntu 系・Red Hat/Fedora 系の 3 系統の導入例と他環境向け一般名一覧を示す。`native/linux/check-deps.py` も同 3 系統を `/etc/os-release` で判別してパッケージ例を出し、未対応 OS は一般名へフォールバックする。Ghostty ビルドは `-Di18n=false` とし、システム依存は GTK4 スタック＋`gtk4-layer-shell` 等に絞る（`spirv-cross`・`oniguruma` は Ghostty 同梱依存を使用）。CI の実際の実行環境とは区別する。第三者通知（THIRD_PARTY_NOTICES.md）は簡潔な英語で記述する。見出し・項目名などの名詞句、コマンド例、第三者ライセンス原文はそのまま保持する。
 
 C# 言語サーバーは無効。Serena の symbol 操作は使わず、ファイル検索・読込で代替する。言語設定を勝手に変更しない。

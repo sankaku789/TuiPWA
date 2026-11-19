@@ -92,16 +92,14 @@ Ghostty の基準コミットは `83fb95624b0439ee660c2679b43b38c8b63769cd`（v1
 
 | 依存 | 用途・扱い |
 |---|---|
-| [Ghostty](https://github.com/ghostty-org/ghostty) 1.4.0 | 端末描画・PTY・IME。専用パッチを適用して同梱 |
+| [Ghostty](https://github.com/ghostty-org/ghostty) 1.4.0 | 端末描画・PTY・IME。専用パッチを適用して同梱（公式アーカイブの生成済み GTK リソースを利用し、`-Di18n=false` でビルド） |
 | [GTK 4](https://www.gtk.org/) / [libadwaita](https://gnome.pages.gitlab.gnome.org/libadwaita/) | ウィンドウ・UI。システムへ動的リンク |
 | [GLib / GIO / GObject](https://docs.gtk.org/) | D-Bus・オブジェクト基盤。CLI とホストから動的リンク |
 | [gtk4-layer-shell](https://github.com/wmww/gtk4-layer-shell) | Ghostty の Wayland 統合用システム依存 |
-| [Wayland](https://wayland.freedesktop.org/) / [libxkbcommon](https://xkbcommon.org/) / [X.Org](https://www.x.org/) | ウィンドウシステム・キー入力 |
-| [Mesa / EGL / OpenGL](https://www.mesa3d.org/) / [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) | GPU 描画・シェーダー関連 |
-| [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/) / [FreeType](https://freetype.org/) | フォント探索・描画。システムへ動的リンク |
-| [HarfBuzz](https://harfbuzz.github.io/) / [glslang](https://github.com/KhronosGroup/glslang) | 文字組版・シェーダー処理。現ビルドでは Ghostty が固定する依存を使用 |
-| [libpng](https://www.libpng.org/pub/png/libpng.html) / [zlib](https://zlib.net/) / [Oniguruma](https://github.com/kkos/oniguruma) | Ghostty の画像・圧縮・正規表現処理。システムへ動的リンク |
-| [libxml2](https://gitlab.gnome.org/GNOME/libxml2) / [GObject Introspection](https://gi.readthedocs.io/) / [Blueprint](https://gnome.pages.gitlab.gnome.org/blueprint-compiler/) / [gettext](https://www.gnu.org/software/gettext/) | 主にホストのビルド・リソース生成 |
+| [Wayland](https://wayland.freedesktop.org/) / [X.Org](https://www.x.org/) | ウィンドウシステム。システムへ動的リンク |
+| [EGL](https://www.khronos.org/egl/)（[Mesa](https://www.mesa3d.org/) / libglvnd 等） | GPU 描画。システムへ動的リンク |
+| [fontconfig](https://www.freedesktop.org/wiki/Software/fontconfig/) / [FreeType](https://freetype.org/) | フォント探索・描画。システムへ動的リンク（libpng・zlib もシステム側の依存を利用） |
+| [HarfBuzz](https://harfbuzz.github.io/) / [glslang](https://github.com/KhronosGroup/glslang) / [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross) / [Oniguruma](https://github.com/kkos/oniguruma) | 文字組版・シェーダー・正規表現処理。現ビルドでは Ghostty 公式アーカイブが固定する依存を使用 |
 
 ### Rust の直接依存
 
@@ -114,7 +112,7 @@ Ghostty の基準コミットは `83fb95624b0439ee660c2679b43b38c8b63769cd`（v1
 | [fontdue](https://crates.io/crates/fontdue) / [png](https://crates.io/crates/png) | アイコンの文字描画・PNG 入出力 |
 | [cc](https://crates.io/crates/cc) / [pkg-config](https://crates.io/crates/pkg-config) | ビルド時の C コンパイル・GIO 検出 |
 
-ビルドには [Rust / Cargo](https://www.rust-lang.org/tools/install) の stable ツールチェーン（edition 2024 対応）、C/C++ ツールチェーン、Make、Python 3、binutils 等が必要です。[Zig](https://ziglang.org/) 0.17.0 は `make` が取得するため手動導入は不要です。各依存のライセンスは [第三者通知](THIRD_PARTY_NOTICES.md)と配布物の `share/licenses/` を参照してください。
+ビルドには [Rust / Cargo](https://www.rust-lang.org/tools/install) の stable ツールチェーン（edition 2024 対応）、C コンパイラ、Make、pkg-config、Python 3、binutils 等が必要です。[Zig](https://ziglang.org/) 0.17.0 は `make` が取得するため手動導入は不要です。各依存のライセンスは [第三者通知](THIRD_PARTY_NOTICES.md)と配布物の `share/licenses/` を参照してください。
 
 ## 責務・プロトコル
 
