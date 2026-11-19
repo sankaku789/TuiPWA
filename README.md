@@ -19,28 +19,57 @@ TUI アプリを、独立したデスクトップアプリのように使える 
 
 ### 2. OS のパッケージでツール・ライブラリを導入
 
-以下は**パッケージ名ではなく、必要なツール・ライブラリの名前**です。お使いの OS のパッケージマネージャーで、対応するパッケージを導入してください。
+お使いのディストリビューションに合わせて、ビルドと実行に必要なパッケージを導入してください。`desktop-file-utils` は「このアプリケーションで開く」の候補一覧を更新するために使います。あわせて、実行環境に合ったグラフィックスドライバー、Adwaita / hicolor アイコンテーマ、システムフォントが必要です（通常のデスクトップ環境では導入済みのことが多いです）。
 
-**ライブラリは実行用だけでなく、ヘッダーや pkg-config 設定を含む開発用パッケージも必要です。** 開発用が別パッケージの場合、名前の末尾が `-dev` や `-devel` になっていることがあります。
+#### Arch 系（Arch Linux など）
+
+```sh
+sudo pacman -S --needed \
+  base-devel python git curl xz \
+  gtk4 libadwaita gtk4-layer-shell wayland libx11 libglvnd fontconfig freetype2 \
+  desktop-file-utils
+```
+
+#### Debian / Ubuntu 系（Debian 13、Ubuntu など）
+
+```sh
+sudo apt update
+sudo apt install \
+  build-essential pkg-config python3 git curl ca-certificates patch xz-utils binutils \
+  libglib2.0-dev libgtk-4-dev libadwaita-1-dev libgtk4-layer-shell-dev \
+  libwayland-dev libx11-dev libegl-dev libfontconfig-dev libfreetype-dev \
+  desktop-file-utils
+```
+
+#### Red Hat / Fedora 系（Fedora など）
+
+```sh
+sudo dnf install \
+  gcc make pkgconf-pkg-config python3 git curl patch tar xz binutils \
+  glib2-devel gtk4-devel libadwaita-devel gtk4-layer-shell-devel \
+  wayland-devel libX11-devel libglvnd-devel fontconfig-devel freetype-devel \
+  desktop-file-utils
+```
+
+RHEL 互換ディストリビューションでは、`gtk4-layer-shell-devel` などの提供に EPEL 等の追加リポジトリが必要な場合があります。
+
+#### その他のディストリビューション
+
+上記以外では、以下のツール・ライブラリに対応するパッケージを導入してください。**ライブラリは実行用だけでなく、ヘッダーや pkg-config 設定を含む開発用パッケージ（`-dev` / `-devel` 等）も必要です。**
 
 | 用途 | 導入するもの |
 |---|---|
-| コンパイル・ビルド | C/C++ コンパイラ、Make、CMake、Ninja、pkg-config、Python 3、binutils |
-| ソース取得・展開・パッチ適用 | Git、curl、CA 証明書、patch、xz |
-| ウィンドウ・UI | GTK 4、libadwaita、gtk4-layer-shell |
-| GLib 基盤・リソース生成 | GLib / GIO / GObject、GObject Introspection、Blueprint コンパイラ、gettext |
-| フォント・文字描画 | fontconfig、FreeType、HarfBuzz |
-| 画像・圧縮・正規表現・XML | libpng、zlib、Oniguruma、libxml2 |
-| GPU 描画 | SPIRV-Cross、EGL / OpenGL（実行環境に合ったグラフィックスドライバーも必要です） |
-| Wayland / X11・キー入力 | Wayland、wayland-protocols、libxkbcommon、X11、libXcursor、libXi、libXrandr |
-| アイコン・表示用フォント | Adwaita / hicolor アイコンテーマ、システムフォント |
-| 「このアプリケーションで開く」の候補一覧の更新（利用時） | desktop-file-utils の `update-desktop-database` |
+| コンパイル・ビルド | C コンパイラ、Make、pkg-config、Python 3、binutils |
+| ソース取得・展開・パッチ適用 | Git、curl、CA 証明書、patch、tar、xz |
+| ウィンドウ・UI・GLib | GTK 4、libadwaita、gtk4-layer-shell、GLib / GIO / GObject |
+| 描画・フォント・ディスプレイ | Wayland クライアント、X11、EGL、fontconfig、FreeType |
+| 実行時の表示・デスクトップ連携 | グラフィックスドライバー、Adwaita / hicolor アイコンテーマ、システムフォント、desktop-file-utils（`update-desktop-database`） |
 
 用途やビルド時の扱いの詳細は [依存ライブラリ・ツール](CONTRIBUTING.md#依存ライブラリツール)を参照してください。
 
 ### 3. TuiPWA をビルド・インストール
 
-`make` はダウンロード・ビルドの前に、主なコマンドと開発ライブラリの不足をチェックします。チェックだけを実行する場合は、リポジトリ内で `make check-deps` を使います。不足があれば一覧を表示して停止します（バージョン互換性や GUI 実行環境を保証するものではありません）。
+`make` はダウンロード・ビルドの前に、主なコマンドと開発ライブラリの不足をチェックします。チェックだけを実行する場合は、リポジトリ内で `make check-deps` を使います。不足があれば一覧を表示して停止し、Arch 系・Debian / Ubuntu 系・Red Hat / Fedora 系では不足分のパッケージ名と導入コマンド例も案内します（バージョン互換性や GUI 実行環境を保証するものではありません）。
 
 次のものはビルド時に自動取得するため、**手動での導入は不要**です。初回のビルドにはインターネット接続が必要です。
 

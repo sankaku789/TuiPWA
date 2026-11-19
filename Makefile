@@ -91,9 +91,9 @@ all: check-deps
 	  touch "$$SOURCE/.applied"
 	fi
 	( cd "$$SOURCE" && "$(CACHE)/zig-x86_64-linux-$(ZIG_VERSION)/zig" build \
-	    -Dversion-string="$(GHOSTTY_VERSION)" -Doptimize=ReleaseSmall -Dcpu=baseline -Demit-docs=false \
-	    -fsys=spirv-cross -fsys=fontconfig -fsys=freetype \
-	    -fsys=libpng -fsys=zlib -fsys=oniguruma -j1 --prefix "$(PREFIX)" )
+	    -Dversion-string="$(GHOSTTY_VERSION)" -Doptimize=ReleaseSmall -Dcpu=baseline \
+	    -Demit-docs=false -Di18n=false \
+	    -fsys=fontconfig -fsys=freetype -fsys=libpng -fsys=zlib -j1 --prefix "$(PREFIX)" )
 	cargo build --release --locked
 	cp target/release/tuipwa "$(PREFIX)/bin/tuipwa"
 	mv "$(PREFIX)/bin/ghostty" "$(PREFIX)/bin/ghostty-host"

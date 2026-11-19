@@ -19,28 +19,57 @@ Follow the [official Rust installation instructions](https://www.rust-lang.org/t
 
 ### 2. Install system tools and libraries
 
-The table below lists **tool and library names, not package names**. Use your OS package manager to install the corresponding packages.
+Install the build and runtime dependencies for your distribution. `desktop-file-utils` is used to refresh "Open With" entries. You also need a graphics driver suitable for your environment, the Adwaita / hicolor icon themes, and system fonts (usually preinstalled on desktop environments).
 
-**Libraries need development files, including headers and pkg-config metadata, not just runtime packages.** Where packaged separately, development packages often have a `-dev` or `-devel` suffix.
+#### Arch-based (Arch Linux, etc.)
+
+```sh
+sudo pacman -S --needed \
+  base-devel python git curl xz \
+  gtk4 libadwaita gtk4-layer-shell wayland libx11 libglvnd fontconfig freetype2 \
+  desktop-file-utils
+```
+
+#### Debian / Ubuntu-based (Debian 13, Ubuntu, etc.)
+
+```sh
+sudo apt update
+sudo apt install \
+  build-essential pkg-config python3 git curl ca-certificates patch xz-utils binutils \
+  libglib2.0-dev libgtk-4-dev libadwaita-1-dev libgtk4-layer-shell-dev \
+  libwayland-dev libx11-dev libegl-dev libfontconfig-dev libfreetype-dev \
+  desktop-file-utils
+```
+
+#### Red Hat / Fedora-based (Fedora, etc.)
+
+```sh
+sudo dnf install \
+  gcc make pkgconf-pkg-config python3 git curl patch tar xz binutils \
+  glib2-devel gtk4-devel libadwaita-devel gtk4-layer-shell-devel \
+  wayland-devel libX11-devel libglvnd-devel fontconfig-devel freetype-devel \
+  desktop-file-utils
+```
+
+On RHEL-compatible distributions, an additional repository such as EPEL may be required for packages like `gtk4-layer-shell-devel`.
+
+#### Other distributions
+
+On other distributions, install the packages providing the tools and libraries below. **Libraries require development files (headers and pkg-config metadata, often packaged as `-dev` or `-devel`), not just runtime packages.**
 
 | Purpose | What to install |
 |---|---|
-| Compilation and build tools | C/C++ compiler, Make, CMake, Ninja, pkg-config, Python 3, binutils |
-| Source download, extraction, and patching | Git, curl, CA certificates, patch, xz |
-| Windows and UI | GTK 4, libadwaita, gtk4-layer-shell |
-| GLib infrastructure and resource generation | GLib / GIO / GObject, GObject Introspection, Blueprint compiler, gettext |
-| Fonts and text rendering | fontconfig, FreeType, HarfBuzz |
-| Images, compression, regular expressions, and XML | libpng, zlib, Oniguruma, libxml2 |
-| GPU rendering | SPIRV-Cross, EGL / OpenGL (a graphics driver suitable for your system is also required) |
-| Wayland / X11 and keyboard input | Wayland, wayland-protocols, libxkbcommon, X11, libXcursor, libXi, libXrandr |
-| Icons and display fonts | Adwaita / hicolor icon themes, system fonts |
-| Refreshing Open With candidates (when used) | `update-desktop-database` from desktop-file-utils |
+| Compilation and build tools | C compiler, Make, pkg-config, Python 3, binutils |
+| Source download, extraction, and patching | Git, curl, CA certificates, patch, tar, xz |
+| Windows, UI, and GLib | GTK 4, libadwaita, gtk4-layer-shell, GLib / GIO / GObject |
+| Rendering, fonts, and display | Wayland client, X11, EGL, fontconfig, FreeType |
+| Runtime display and desktop integration | Graphics driver, Adwaita / hicolor icon themes, system fonts, desktop-file-utils (`update-desktop-database`) |
 
 See [dependencies and tools](CONTRIBUTING.md#依存ライブラリツール) (Japanese) for details on their roles and build-time handling.
 
 ### 3. Build and install TuiPWA
 
-Before downloading or compiling, `make` checks for common missing commands and development libraries. To run only this check, use `make check-deps` inside the repository. Missing items are listed together and the build stops (this does not guarantee version compatibility or a working GUI environment). Diagnostics are currently in Japanese.
+Before downloading or compiling, `make` checks for common missing commands and development libraries. To run only this check, use `make check-deps` inside the repository. Missing items are listed together and the build stops; on Arch-, Debian/Ubuntu-, and Red Hat/Fedora-based systems, package names and an example install command are also shown (this does not guarantee version compatibility or a working GUI environment). Diagnostics are currently in Japanese.
 
 The following are downloaded automatically during the build; **do not install them manually**. The first build requires an internet connection.
 

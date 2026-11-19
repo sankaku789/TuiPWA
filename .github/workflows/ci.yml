@@ -63,21 +63,16 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: システム依存（README のビルド手順と同じ）
+      - name: システム依存（README の Debian / Ubuntu 系手順と同じ）
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config git curl ca-certificates patch \
-            python3 xz-utils binutils \
-            libgtk-4-dev libadwaita-1-dev libgtk4-layer-shell-dev \
-            libglib2.0-dev gobject-introspection libgirepository1.0-dev \
-            blueprint-compiler gettext libfontconfig1-dev libfreetype-dev \
-            libharfbuzz-dev libpng-dev zlib1g-dev libonig-dev libxml2-dev \
-            libwayland-dev wayland-protocols libxkbcommon-dev \
-            libegl1-mesa-dev libgl-dev libgl1-mesa-dri \
-            libx11-dev libxcursor-dev libxi-dev libxrandr-dev \
-            libspirv-cross-c-shared-dev adwaita-icon-theme hicolor-icon-theme \
-            fonts-dejavu-core nano
+            build-essential pkg-config python3 git curl ca-certificates patch \
+            xz-utils binutils \
+            libglib2.0-dev libgtk-4-dev libadwaita-1-dev libgtk4-layer-shell-dev \
+            libwayland-dev libx11-dev libegl-dev libfontconfig-dev libfreetype-dev \
+            desktop-file-utils \
+            adwaita-icon-theme hicolor-icon-theme fonts-dejavu-core nano
 
       - name: Rust ツールチェーン
         run: |
